@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import MobileHeader from "./mobile_header";
 import MobileFooter from "./moblie_footer";
 
