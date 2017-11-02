@@ -1,19 +1,12 @@
 import React from 'react';
 import {Row,Col} from 'antd';
 import { Menu, Icon } from 'antd';
-import 'antd/dist/antd.css';
 
 export default class PCHeader extends React.Component{
-    constructor(){
+    constructor() {
         super();
-        this.state={
-            current:'headLine'
-        }
-    }
-
-    handleClick(even){
-        this.setState={
-            current:even.target.value
+        this.state = {
+            current: 'headLine'
         }
     }
 
@@ -30,7 +23,6 @@ export default class PCHeader extends React.Component{
                     </Col>
                     <Col span={16}>
                         <Menu
-                            onClick={this.handleClick}
                             selectedKeys={[this.state.current]}
                             mode="horizontal"
                         >
