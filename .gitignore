@@ -37,3 +37,5 @@ Thumbs.db
 
 #webStrom ignore
 /node_modules/**/*
+
+#源码地址https://github.com/ParryQiu/IMOOC-React
