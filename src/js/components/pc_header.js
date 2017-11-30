@@ -122,7 +122,7 @@ class PCHeader extends React.Component{
                 }
             }).then((json)=>{
                 if(json == null || json == undefined){
-                    message.error("用户名或密码不能为空")
+                    message.error("用户名或密码错误")
                     return;
                 }
                 message.success("登录成功！");

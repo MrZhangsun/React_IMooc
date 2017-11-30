@@ -1,10 +1,11 @@
 import React from "react";
+import Link from "react-router-dom";
 import { Menu, Icon, Button, Form, Checkbox, Input, message, Tabs, Modal, Row, Col, Alert } from "antd";
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 import "antd/dist/antd.css";
 
-export default class MobileHeader extends React.Component{
+class MobileHeader extends React.Component{
     constructor(){
         super();
         this.state = {
@@ -24,7 +25,7 @@ export default class MobileHeader extends React.Component{
     /*显示模态框*/
     showModal=()=>{
         this.setState({
-            modelVisible: true,
+            modelVisible: true
         });
     }
 
@@ -123,10 +124,14 @@ export default class MobileHeader extends React.Component{
                 }
             }).then((json)=>{
             if(json == null || json == undefined){
-                message.error("用户名或密码不能为空")
+                message.error("用户名或密码错误")
                 return;
             }
             message.success("登录成功！");
+            this.setState({
+                modelVisible: false,
+                hasLogined:true,
+            });
         }).catch((error)=>{
             console.log(error);
         });
@@ -168,28 +173,112 @@ export default class MobileHeader extends React.Component{
     };
 
     render(){
+        const {getFieldDecorator} = this.props.form;
+
         const userShow = this.state.hasLogined ?
-            <Link>
-                <Icon type={"inbox"}/>
-            </Link>
+            <Icon type={"inbox"} style={{ fontSize:40, color: '#08c', paddingTop : 10, paddingBottom:10}}/>
             :
-            <Icon type={"settings"} onClick={this.showModal.bind(this)}/>;
+            <Icon type="appstore" style={{ fontSize:40, color: '#08c', paddingTop : 10, paddingBottom:10}} onClick={this.showModal.bind(this)} />;
         return(
             <div id={"mobileHeader"}>
                 <header>
                     <Row>
                         <Col span={1}></Col>
-                        <Col span={22}>
+                        <Col span={21}>
                             <a href="/" className="logo">
                                 <img src="./src/images/logo.png" alt="logo"/>
                                 <span>ReactNews</span>
                             </a>
+                        </Col>
+                        <Col span={1}>
                             {userShow}
                         </Col>
                         <Col span={1}></Col>
                     </Row>
+                    {/*用户注册模态框*/}
+                    <Modal
+                        title="用户中心"
+                        visible={this.state.modelVisible}
+                        footer={null}
+                        onCancel={this.handleCancel.bind(this)}>
+                        {/*用户登录Tab*/}
+                        <Tabs defaultActiveKey="1">
+                            <TabPane tab={<span><Icon type="key" />登录</span>} key="1">
+                                <Form onSubmit={this.userLogin.bind(this)} className="login-form">
+                                    <FormItem>
+                                        {getFieldDecorator('userName', {
+                                            rules: [{ required: true, message: 'Please input your username!' }],
+                                        })(
+                                            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+                                        )}
+                                    </FormItem>
+                                    <FormItem>
+                                        {getFieldDecorator('password', {
+                                            rules: [{ required: true, message: 'Please input your Password!' }],
+                                        })(
+                                            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+                                        )}
+                                    </FormItem>
+                                    <FormItem>
+                                        {getFieldDecorator('remember', {
+                                            valuePropName: 'checked',
+                                            initialValue: true,
+                                        })(
+                                            <Checkbox>Remember me</Checkbox>
+                                        )}
+                                        <a className="login-form-forgot" href="">Forgot password</a>
+                                        <Button type="primary" htmlType="submit" style={{width: 488}}>
+                                            Log in
+                                        </Button>
+                                        Or <a href="">register now!</a>
+                                    </FormItem>
+                                </Form>
+                            </TabPane>
+
+                            {/*用户注册Tab*/}
+                            <TabPane tab={<span><Icon type="solution" />注册</span>} key="2">
+                                <Form onSubmit={this.userRegister} className="register-form">
+                                    <FormItem>
+                                        {/*{getFieldDecorator("propertyName"，rules[{rule1},{rule2}])(React标签元素)}*/}
+                                        {getFieldDecorator('r_userName', {
+                                            rules: [{ required: true, message: 'Please input your username!' }],
+                                        })(
+                                            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+                                        )}
+                                    </FormItem>
+                                    <FormItem>
+                                        {getFieldDecorator('r_password', {
+                                            rules: [{ required: true, message: 'Please input your password!' }],
+                                        })(
+                                            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} placeholder="Password" />
+                                        )}
+                                    </FormItem>
+                                    <FormItem>
+                                        {getFieldDecorator('r_confirmPassword', {
+                                            rules: [{ required: true, message: 'Please input your password again!' }],
+                                        })(
+                                            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} placeholder="ConfirmPassword" />
+                                        )}
+                                    </FormItem>
+
+                                    <FormItem style={{ marginBottom: 8 }}>
+                                        {getFieldDecorator('agreement', {
+                                            valuePropName: 'checked',
+                                        })(
+                                            <Checkbox>I have read the <a href="">agreement</a></Checkbox>
+                                        )}
+                                        <Button type="primary" htmlType="submit" style={{width: 488}}>
+                                            Register
+                                        </Button>
+                                    </FormItem>
+                                </Form>
+                            </TabPane>
+                        </Tabs>
+                    </Modal>
                 </header>
             </div>
         );
     };
 }
+
+export default MobileHeader = Form.create({})(MobileHeader);
