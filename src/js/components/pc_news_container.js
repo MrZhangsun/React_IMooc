@@ -29,12 +29,21 @@ export default class PCNewsContainer extends React.Component {
                                 </Carousel>
                             </div>
                         </div>
-                        <Tabs className={"tabs_news"}>
-                            <TabPane tab={"关注"} width={"100%"}>
+                        <Tabs defaultActiveKey={"1"} className={"tabs_news"}>
+                            <TabPane tab={"头条"} width={"100%"} key={"1"}>
                                 <PCNewsBlock count={22} type={"top"}/>
                             </TabPane>
-                            <TabPane tab={"新闻"} width={"100%"}>
-                                <PCNewsBlock count={22} type={"top"}/>
+                            <TabPane tab={"国际"} width={"100%"} key={"2"}>
+                                <PCNewsBlock count={22} type={"guoji"}/>
+                            </TabPane>
+                            <TabPane tab={"娱乐"} width={"100%"} key={"3"}>
+                                <PCNewsBlock count={22} type={"yule"}/>
+                            </TabPane>
+                            <TabPane tab={"科技"} width={"100%"} key={"4"}>
+                                <PCNewsBlock count={22} type={"keji"}/>
+                            </TabPane>
+                            <TabPane tab={"军事"} width={"100%"} key={"6"}>
+                                <PCNewsBlock count={22} type={"junshi"}/>
                             </TabPane>
                         </Tabs>
                     </Col>
