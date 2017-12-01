@@ -125,7 +125,14 @@ class PCHeader extends React.Component{
                     message.error("用户名或密码错误")
                     return;
                 }
-                message.success("登录成功！");
+                this.setState({
+                    modelVisible: false,
+                    hasLogined:true,
+                });
+            /*保存用户的登录信息*/
+            localStorage.userId = json.userId;
+            localStorage.nickName = json.nickName;
+            message.success("登录成功！");
         }).catch((error)=>{
             console.log(error);
         });
@@ -166,6 +173,16 @@ class PCHeader extends React.Component{
         });
     }
 
+    /*用户退出*/
+    logout=() =>{
+        localStorage.userId = "";
+        localStorage.nickName = "";
+        this.setState({
+            hasLogined:false,
+        });
+        message.success("退出成功！");
+    };
+
     render(){
         /*{}方式的定义表示引用react定义好的变量或者组件*/
         const {getFieldDecorator} = this.props.form;
@@ -173,22 +190,19 @@ class PCHeader extends React.Component{
         // 注册/登录
         const userShow=this.state.hasLogined
         ?
-        <Menu.Item key={"logout"} className={"register"}>
-            <Button type={"ghost"} htmlType={"button"}>{this.state.nickName}</Button>
+        <Menu.Item key={"logout"} className={"register"} style={{paddingLeft : 0, paddingRight : 0}}>
+            <Button size={"small"} icon={"user"}>个人中心</Button>
             &nbsp;&nbsp;
-            <Button type={"ghost"} htmlType={"button"}>个人中心</Button>
-            &nbsp;&nbsp;
-            <Button type={"ghost"} htmlType={"button"}>退出</Button>
+            <Button size={"small"} onClick={this.logout.bind(this)} icon={"logout"}>退出</Button>
             &nbsp;&nbsp;
         </Menu.Item>
         :
         <Menu.Item key={"register"} className={"register"}>
-            <Button type="primary" onClick={this.showModal.bind(this)}>登录/注册</Button>
+            <Button size={"small"} onClick={this.showModal.bind(this)} icon={"login"}>登录/注册</Button>
         </Menu.Item>;
 
         return(
             <header>
-
                 <Row>
                     <Col span={2}></Col>
                     <Col span={4}>
@@ -250,7 +264,7 @@ class PCHeader extends React.Component{
                                     <Button type="primary" htmlType="submit" style={{width: 488}}>
                                         Log in
                                     </Button>
-                                    Or <a href="">register now!</a>
+                                    Or <a href="#">register now!</a>
                                 </FormItem>
                             </Form>
                         </TabPane>

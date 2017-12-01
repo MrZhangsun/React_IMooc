@@ -127,11 +127,13 @@ class MobileHeader extends React.Component{
                 message.error("用户名或密码错误")
                 return;
             }
-            message.success("登录成功！");
             this.setState({
                 modelVisible: false,
                 hasLogined:true,
             });
+            localStorage.userId = json.userId;
+            localStorage.nickName = json.nickName;
+            message.success("登录成功！");
         }).catch((error)=>{
             console.log(error);
         });
@@ -172,13 +174,22 @@ class MobileHeader extends React.Component{
         });
     };
 
+    /*用户退出*/
+    logout=()=>{
+        localStorage.userId = "";
+        localStorage.nickName = "";
+        this.setState({
+            hasLogined:false,
+        });
+        message.success("退出成功！");
+    }
     render(){
         const {getFieldDecorator} = this.props.form;
 
         const userShow = this.state.hasLogined ?
-            <Icon type={"inbox"} style={{ fontSize:40, color: '#08c', paddingTop : 10, paddingBottom:10}}/>
+            <Icon type={"logout"} style={{ fontSize:40, color: '#08c', paddingTop : 10, paddingBottom:10}} onClick={this.logout.bind(this)}/>
             :
-            <Icon type="appstore" style={{ fontSize:40, color: '#08c', paddingTop : 10, paddingBottom:10}} onClick={this.showModal.bind(this)} />;
+            <Icon type="login" style={{ fontSize:40, color: '#08c', paddingTop : 10, paddingBottom:10}} onClick={this.showModal.bind(this)} />;
         return(
             <div id={"mobileHeader"}>
                 <header>
