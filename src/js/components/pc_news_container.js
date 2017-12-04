@@ -1,19 +1,12 @@
 import React from "react";
 import {Row, Col, Carousel, Tabs} from "antd";
 import PCNewsBlock from "./pc_news_block";
+import PCNewsImageBlock from "./pc_news_image_block"
 
 const TabPane = Tabs.TabPane;
 
 export default class PCNewsContainer extends React.Component {
     render() {
-        const settings = {
-            dots: true,
-            autoplay:true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-        };
         return (
             <div>
                 <Row>
@@ -27,8 +20,10 @@ export default class PCNewsContainer extends React.Component {
                                     <div><img src="src/images/carousel_3.jpg" alt="image is missing"/></div>
                                     <div><img src="src/images/carousel_4.jpg" alt="image is missing"/></div>
                                 </Carousel>
+                                <PCNewsImageBlock count={6} type={"guoji"} cartTitle={"国际新闻"} imageWidth={"112px"} width={"400px"}/>
                             </div>
                         </div>
+
                         <Tabs defaultActiveKey={"1"} className={"tabs_news"}>
                             <TabPane tab={"头条"} width={"100%"} key={"1"}>
                                 <PCNewsBlock count={22} type={"top"}/>
@@ -49,7 +44,24 @@ export default class PCNewsContainer extends React.Component {
                     </Col>
                     <Col span={2}></Col>
                 </Row>
+                <Row>
+                    <Col span={2}></Col>
+                    <Col span={20}>
+                        <div>
+                            <PCNewsImageBlock count={16} type={"guoji"} cartTitle={"国际新闻"} imageWidth={"132px"} width={"100%"}/>
+                        </div>
+                    </Col>
+                    <Col span={2}></Col>
+                </Row>
             </div>
         );
+        const settings = {
+            dots: true,
+            autoplay:true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+        };
     };
 }
